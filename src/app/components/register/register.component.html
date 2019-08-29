@@ -9,18 +9,26 @@
             <mat-card-content>
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Username" formControlName="username">
-                    <div *ngIf="submitted && f.username.errors">
-                        <div *ngIf="f.username.errors.required">User Name is required</div>
-                    </div>
                 </mat-form-field>
+                <div *ngIf="submitted && f.username.errors">
+                    <div *ngIf="f.username.errors.required"><small>User Name is required</small></div>
+                </div>
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Email"  formControlName="email">
                 </mat-form-field>
+                <div *ngIf="submitted && f.email.errors">
+                    <div *ngIf="f.email.errors.required"><small>Email is required</small></div>
+                    <div *ngIf="f.email.errors.pattern"><small>Invalid Email Id</small></div>
+                </div>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Password" formControlName="password">
+                    <input matInput type="password" placeholder="Password" formControlName="password">
                 </mat-form-field>
+                <div *ngIf="submitted && f.password.errors">
+                    <div *ngIf="f.password.errors.required"><small>Password is required</small></div>
+                    <div *ngIf="f.password.errors.minlength"><small>Password must be atleast 6 characters long</small></div>
+                </div>
 
                 <mat-form-field class="example-full-width">
                     <mat-label>Choose a role...</mat-label>
@@ -29,6 +37,9 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <div *ngIf="submitted && f.roles.errors">
+                    <div *ngIf="f.roles.errors.required"><small>Roles is required</small></div>
+                </div>
 
             </mat-card-content>
 
