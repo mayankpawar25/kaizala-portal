@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { LoginServiceService } from '../../login-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -10,8 +12,9 @@ export class LogInComponent implements OnInit {
   loginForm: any;
   submitted = false;
   data = [];
+  loginVerification: any;
 
-  constructor( private fb: FormBuilder ) { }
+  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, ) { }
   ngOnInit() {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -29,6 +32,14 @@ export class LogInComponent implements OnInit {
       return false;
     }
 
+    this.loginService.getLogin().subscribe( (resp) => {
+      this.loginVerification = resp;
+      if (( this.loginVerification.username === this.loginForm.value.username )
+      && (this.loginVerification.password === this.loginForm.value.password )) {
+        console.log('Credentials Matched');
+        this.router.navigate(['/dashboard']);
+      }
+    });
     this.data.push(this.loginForm.value);
     console.table(this.data);
   }
